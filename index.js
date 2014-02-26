@@ -1,10 +1,12 @@
 var klass = require("bloody-class")
-  , extend = require("bloody-collections/lib/extend")
   , events = require("./events")
 
 module.exports = klass.extend({
   constructor : function(object){
-    extend(this, object)
+    Object.keys(object || {})
+      .forEach(function(key){
+        this[key] = object[key]
+      }, this)
     if(typeof this.element == "string") {
       this.element = document.querySelector(this.element)
       if(!this.element) {
