@@ -12,14 +12,14 @@ if(!nativeMatchesSelector) {
 }
 
 module.exports = function(rootNode, node, selector){
-  if(node.isSameNode(rootNode)) {
+  if(node == rootNode) {
     return false
   }
   if(nativeMatchesSelector.call(node, selector)) {
     return node
   }
   while(node = node.parentNode) {
-    if(node.isSameNode(rootNode)) break
+    if(node == rootNode) break
     if(node.nodeType != node.ELEMENT_NODE) break
     if(nativeMatchesSelector.call(node, selector)) {
       return node
