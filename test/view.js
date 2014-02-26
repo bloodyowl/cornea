@@ -90,3 +90,19 @@ tape("no config", function(test){
   }, "doesn't throw if no params were defined")
   test.end()
 })
+
+tape("get element by selector", function(test){
+  var div = document.createElement("div")
+  div.id = "foobarbaz"
+  document.body.appendChild(div)
+  var view = cornea.create({element:"#foobarbaz"})
+  test.equal(view.element, div, "gets by selector")
+  test.end()
+})
+
+tape("throws if no element was found", function(test){
+  test.throws(function(){
+    var view = cornea.create({element:"thisWillfail"})
+  })
+  test.end()
+})

@@ -5,6 +5,12 @@ var klass = require("bloody-class")
 module.exports = klass.extend({
   constructor : function(object){
     extend(this, object)
+    if(typeof this.element == "string") {
+      this.element = document.querySelector(this.element)
+      if(!this.element) {
+        throw new Error("node has not been found")
+      }
+    }
     if(!this.element) {
       this.element = document.createElement("div")
     }
