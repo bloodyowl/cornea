@@ -1,5 +1,7 @@
 # cornea
 
+[![browser support](https://ci.testling.com/bloodyowl/cornea.png)](https://ci.testling.com/bloodyowl/cornea)
+
 cornea is a simple view manager inspired by [backbonejs](http://backbonejs.org) to help you organise your code. 
 
 ## install
