@@ -1,0 +1,35 @@
+{
+  "name": "cornea",
+  "version": "0.1.0",
+  "description": "mess-avoider ",
+  "main": "index.js",
+  "scripts": {
+    "test": "tape test/**.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:bloodyowl/cornea.git"
+  },
+  "author": "bloodyowl",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bloodyowl/cornea/issues"
+  },
+  "homepage": "https://github.com/bloodyowl/cornea",
+  "devDependencies": {
+    "tape": "^2.5.0",
+    "bloody-class": "^1.1.0"
+  },
+  "testling": {
+    "files": "test/*.js",
+    "browsers": {
+      "ie": [ 9, 10 ],
+      "firefox": [ 24, 25, 26, 27 ],
+      "chrome": [ 28, 29, 30, 31, 32 ],
+      "safari": [ 4, 5.1, 6 ],
+      "opera": [ 15, 16, 17, 18, 19 ],
+      "iphone" : [ 6 ],
+      "ipad" : [ 6 ]
+    }
+  }
+}
