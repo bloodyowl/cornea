@@ -2,6 +2,20 @@
 
 cornea is a simple view manager inspired by [backbonejs](http://backbonejs.org) to help you organise your code. 
 
+## install
+
+```shell
+$ npm install cornea
+```
+
+## require
+
+```javascript
+var cornea = require("cornea")
+```
+
+## use
+
 ```javascript
 var cornea = require("cornea")
 
