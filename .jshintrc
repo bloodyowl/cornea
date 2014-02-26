@@ -1,6 +1,6 @@
 {
-	"laxcomma": true,
-	"asi": true,
+  "laxcomma": true,
+  "asi": true,
   "boss": true,
   "eqeqeq": false,
   "eqnull": true,
