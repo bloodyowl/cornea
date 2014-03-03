@@ -30,6 +30,48 @@ Creates a `cornea` view. Binds events.
 
 Unbinds the events. 
 
+### `cornea#render` 
+
+Renders the given template into `view.element`. 
+
+### `cornea.binding(key)`
+
+Returns a `binding` object for the given `key`. 
+
+### `cornea.data`
+
+Object for template data, bindings relate to it. 
+
+### `cornea.update(key, value)`
+
+Updates bindings for `key` with `value`. 
+
+### `binding`
+
+#### `binding.toNode(bindingOptions)` 
+
+Returns a bound node. 
+
+#### `binding.toString(bindingOptions)`
+
+Returns the string representation of a bound node. 
+
+##### `bindingOptions`
+
+* `bindingOptions.escape`
+* `bindingOptions.className`
+* `bindingOptions.nodeName`
+* `bindingOptions.attributes` (object, as key:value)
+* `bindingOptions.template` (string, where `#{*}` is the bound value)
+
+#### `binding.bindAttribute(node, attributeName, options)`
+
+Binds `attributeName`. 
+Options are : 
+
+* `bindingOptions.escape`
+* `bindingOptions.template`
+
 ### `options`
 
 #### `options.element`
@@ -37,6 +79,12 @@ Unbinds the events.
 `String` or `Node`, optional. 
 View root. 
 If not defined, an empty `<div>` will be created. 
+
+#### `options.template`
+
+`Function`, optional (default : `-> ""`). 
+
+Template called on `.render`. Should return a `string` or a `node`. 
 
 #### `options.initialize`
 
@@ -95,26 +143,25 @@ module.exports = cornea.extend({
   events : [
     {
       type : "click",
-      selector : ".js-ShowDropdown",
-      listener : "showDropdown"
-    },
-    {
-      type : "load",
-      selector : "img",
-      listener : "hideLoader"
-      capture : true
+      selector : ".js-ShowField",
+      listener : "showField"
     }
   ],
+  
+  data : {
+    value : "you"
+  },
+  
+  template : function(){
+    var input = document.createElement("input")
+    this.binding("value").bindAttribute(input, "value", {template:"hello #{*}"})
+    return input
+  },
   /*
     and their listeners
   */
-  showDropdown : function(eventObject, target){
-    target.nextElementSibling
-      .classList.remove(".Navigation-dropdown--hidden")
-  },
-  hideLoader : function(eventObject, target){
-    target.parentNode
-      .removeChild(target.previousElementSibling)
+  showField : function(eventObject, target){
+    this.render()
   }
 })
 ```
@@ -127,6 +174,8 @@ var view = require("./myView")
 var myView = view.create({
   option1 : "foo"
 })
+
+myView.update("value", "USERNAME")
 
 myView.destroy()
 ```
