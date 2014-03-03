@@ -3,6 +3,8 @@ var klass = require("bloody-class")
   , binding = require("./binding")
   , template = require("./template")
   , extend = require("./utils/extend")
+  , empty = function(){return ""}
+  , _forEach = [].forEach
 
 module.exports = klass.extend({
 
@@ -39,17 +41,19 @@ module.exports = klass.extend({
   },
 
   binding : function(key){
-    return binding.create(key)
+    return binding.create(this, key)
   },
+
+  template : empty,
 
   render : function(){
     var contents = this.template(this.data)
     this.element.innerHTML = ""
-    if(typeof template == "string") {
+    if(typeof contents == "string") {
       this.element.innerHTML = contents
       return this.updateBindings()
     }
-    if(template && template.nodeType) {
+    if(contents && contents.nodeType) {
       this.element.innerHTML = ""
       this.element.appendChild(template)
       this.updateBindings()
@@ -62,22 +66,21 @@ module.exports = klass.extend({
   },
 
   update : function(key, value){
-    this.bindings
-      .forEach(function(element){
-        var property, templateString, content
-        if(element.getAttribute(binding.ATTRIBUTE_KEY) != key) {
-          return
-        }
+    _forEach.call(this.bindings, function(element){
+      var property, templateString, content
+      if(element.getAttribute(binding.ATTRIBUTE_KEY) != key) {
+        return
+      }
 
-        property = element.getAttribute(binding.ATTRIBUTE_BINDING)
-        templateString = element.getAttribute(binding.ATTRIBUTE_TEMPLATE)
-        content = template(templateString, value)
+      property = element.getAttribute(binding.ATTRIBUTE_BINDING)
+      templateString = element.getAttribute(binding.ATTRIBUTE_TEMPLATE)
+      content = template(templateString, value, element.hasAttribute(binding.ATTRIBUTE_ESCAPE))
 
-        if(property == "innerHTML") {
-          element.innerHTML = content
-          return
-        }
-        element.setAttribute(property, content)
-      })
+      if(property == "innerHTML") {
+        element.innerHTML = content
+        return
+      }
+      element.setAttribute(property, content)
+    })
   }
 })

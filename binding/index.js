@@ -1,4 +1,5 @@
 var klass = require("bloody-class")
+  , template = require("../template")
 
 module.exports = klass.extend({
 
@@ -8,7 +9,8 @@ module.exports = klass.extend({
   ATTRIBUTE_TEMPLATE : "data-cornea-template",
   CLASSNAME_BINDING : "cornea-binding",
 
-  constructor : function(key){
+  constructor : function(view, key){
+    this.view = view
     this.key = key
   },
 
@@ -20,6 +22,7 @@ module.exports = klass.extend({
     if(options == void 0) options = {}
     var node = document.createElement(options.nodeName || "div")
       , escape = options.hasOwnProperty("escape") ? options.escape : true
+      , tmpl
     node.className =
       this.CLASSNAME_BINDING +
       (options.className ? " " + options.className : "")
@@ -34,18 +37,21 @@ module.exports = klass.extend({
 
     node.setAttribute(this.ATTRIBUTE_BINDING, "innerHTML")
     node.setAttribute(this.ATTRIBUTE_KEY, this.key)
-    node.setAttribute(this.ATTRIBUTE_TEMPLATE, options.template || "#{*}")
+    node.setAttribute(this.ATTRIBUTE_TEMPLATE, tmpl = options.template || "#{*}")
     if(escape) node.setAttribute(this.ATTRIBUTE_ESCAPE, "")
+    node.innerHTML = template(tmpl, this.view.data && this.view.data[this.key], escape)
     return node
   },
 
   bindAttribute : function(node, attributeName, options){
     if(options == void 0) options = {}
     var escape = options.hasOwnProperty("escape") ? options.escape : true
+      , tmpl
     node.setAttribute(this.ATTRIBUTE_BINDING, attributeName)
     node.setAttribute(this.ATTRIBUTE_KEY, this.key)
-    node.setAttribute(this.ATTRIBUTE_TEMPLATE, options.template || "#{*}")
+    node.setAttribute(this.ATTRIBUTE_TEMPLATE, tmpl = options.template || "#{*}")
     node.className = (node.className + " " + this.CLASSNAME_BINDING).trim()
     if(escape) node.setAttribute(this.ATTRIBUTE_ESCAPE, "")
+    node.setAttribute(attributeName, template(tmpl, this.view.data && this.view.data[this.key], escape))
   }
 })

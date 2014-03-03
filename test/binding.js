@@ -1,9 +1,9 @@
 var tape = require("tape")
   , binding = require("../binding")
-
+  , view = {data:{foo:"test"}}
 tape("binding.toString", function(test){
   
-  var b = binding.create("foo")
+  var b = binding.create(view, "foo")
     , b1 = b.toString()
     , b2 = b.toString({nodeName:"span"})
 
@@ -14,13 +14,14 @@ tape("binding.toString", function(test){
   test.notEqual(b1.indexOf("data-cornea-escape"), -1)
   test.notEqual(b1.indexOf("div"), -1)
   test.notEqual(b2.indexOf("span"), -1)
+  test.notEqual(b2.indexOf("test"), -1)
   test.end()
   
 })
 
 tape("binding.toNode", function(test){
 
-  var b = binding.create("foo")
+  var b = binding.create(view, "foo")
     , b1 = b.toNode()
 
   test.equal(b1.nodeName, "DIV", "gets default nodeName")
@@ -29,13 +30,14 @@ tape("binding.toNode", function(test){
   test.equal(b1.getAttribute("data-cornea-key"), "foo", "sets key")
   test.equal(b1.getAttribute("data-cornea-template"), "#{*}", "sets default template")
   test.equal(b1.hasAttribute("data-cornea-escape"), true, "is escaped by default")
+  test.equal(b1.innerHTML, "test")
   test.end()
 
 })
 
 tape("binding.toNode (extend)", function(test){
 
-  var b = binding.create("foo")
+  var b = binding.create(view, "foo")
     , b1 = b.toNode({
         nodeName:"span",
         attributes:{"data-foo":"bar"},
@@ -51,13 +53,14 @@ tape("binding.toNode (extend)", function(test){
   test.equal(b1.getAttribute("data-cornea-key"), "foo", "sets key")
   test.equal(b1.getAttribute("data-cornea-template"), "it is #{*}", "sets custom template")
   test.equal(b1.hasAttribute("data-cornea-escape"), false, "custom escape")
+  test.equal(b1.innerHTML, "it is test", "content")
   test.end()
 
 })
 
 tape("binding.bindAttribute", function(test){
 
-  var b = binding.create("foo")
+  var b = binding.create(view, "foo")
     , node = document.createElement("div")
 
   b.bindAttribute(node, "data-value")
@@ -66,13 +69,14 @@ tape("binding.bindAttribute", function(test){
   test.equal(node.getAttribute("data-cornea-key"), "foo", "sets key")
   test.equal(node.getAttribute("data-cornea-template"), "#{*}", "sets template")
   test.equal(node.hasAttribute("data-cornea-escape"), true, "escape")
+  test.equal(node.getAttribute("data-value"), "test", "content")
   test.end()
 
 })
 
 tape("binding.bindAttribute (extend)", function(test){
 
-  var b = binding.create("foo")
+  var b = binding.create(view, "foo")
     , node = document.createElement("div")
 
   b.bindAttribute(node, "data-value", {template:"foo #{*}", escape:false})
@@ -81,6 +85,7 @@ tape("binding.bindAttribute (extend)", function(test){
   test.equal(node.getAttribute("data-cornea-key"), "foo", "sets key")
   test.equal(node.getAttribute("data-cornea-template"), "foo #{*}", "sets custom template")
   test.equal(node.hasAttribute("data-cornea-escape"), false, "custom escape")
+  test.equal(node.getAttribute("data-value"), "foo test", "sets custom template")
   test.end()
 
 })
