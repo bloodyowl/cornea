@@ -40,10 +40,12 @@ module.exports = klass.extend({
   },
 
   bindAttribute : function(node, attributeName, options){
+    if(options == void 0) options = {}
     var escape = options.hasOwnProperty("escape") ? options.escape : true
     node.setAttribute(this.ATTRIBUTE_BINDING, attributeName)
     node.setAttribute(this.ATTRIBUTE_KEY, this.key)
     node.setAttribute(this.ATTRIBUTE_TEMPLATE, options.template || "#{*}")
+    node.className = (node.className + " " + this.CLASSNAME_BINDING).trim()
     if(escape) node.setAttribute(this.ATTRIBUTE_ESCAPE, "")
   }
 })

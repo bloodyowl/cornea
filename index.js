@@ -47,13 +47,13 @@ module.exports = klass.extend({
     this.element.innerHTML = ""
     if(typeof template == "string") {
       this.element.innerHTML = contents
-      return
+      return this.updateBindings()
     }
     if(template && template.nodeType) {
       this.element.innerHTML = ""
       this.element.appendChild(template)
+      this.updateBindings()
     }
-    this.updateBindings()
   },
 
   updateBindings : function(){
