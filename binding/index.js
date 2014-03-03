@@ -1,5 +1,6 @@
 var klass = require("bloody-class")
   , template = require("../template")
+  , attribute = require("./attribute")
 
 module.exports = klass.extend({
 
@@ -39,7 +40,7 @@ module.exports = klass.extend({
     node.setAttribute(this.ATTRIBUTE_KEY, this.key)
     node.setAttribute(this.ATTRIBUTE_TEMPLATE, tmpl = options.template || "#{*}")
     if(escape) node.setAttribute(this.ATTRIBUTE_ESCAPE, "")
-    node.innerHTML = template(tmpl, this.view.data && this.view.data[this.key], escape)
+    attribute.set(node, "innerHTML", template(tmpl, this.view.data && this.view.data[this.key], escape))
     return node
   },
 
@@ -52,6 +53,6 @@ module.exports = klass.extend({
     node.setAttribute(this.ATTRIBUTE_TEMPLATE, tmpl = options.template || "#{*}")
     node.className = (node.className + " " + this.CLASSNAME_BINDING).trim()
     if(escape) node.setAttribute(this.ATTRIBUTE_ESCAPE, "")
-    node.setAttribute(attributeName, template(tmpl, this.view.data && this.view.data[this.key], escape))
+    attribute.set(node, attributeName, template(tmpl, this.view.data && this.view.data[this.key], escape))
   }
 })

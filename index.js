@@ -1,6 +1,7 @@
 var klass = require("bloody-class")
   , events = require("./events")
   , binding = require("./binding")
+  , attribute = require("./binding/attribute")
   , template = require("./template")
   , extend = require("./utils/extend")
   , empty = function(){return ""}
@@ -55,7 +56,7 @@ module.exports = klass.extend({
     }
     if(contents && contents.nodeType) {
       this.element.innerHTML = ""
-      this.element.appendChild(template)
+      this.element.appendChild(contents)
       this.updateBindings()
     }
   },
@@ -71,16 +72,10 @@ module.exports = klass.extend({
       if(element.getAttribute(binding.ATTRIBUTE_KEY) != key) {
         return
       }
-
       property = element.getAttribute(binding.ATTRIBUTE_BINDING)
       templateString = element.getAttribute(binding.ATTRIBUTE_TEMPLATE)
       content = template(templateString, value, element.hasAttribute(binding.ATTRIBUTE_ESCAPE))
-
-      if(property == "innerHTML") {
-        element.innerHTML = content
-        return
-      }
-      element.setAttribute(property, content)
+      attribute.set(element, property, content)
     })
   }
 })

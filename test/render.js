@@ -88,3 +88,31 @@ tape("render (unescaped)", function(test){
   test.end()
 
 })
+
+
+tape("render (value attribute)", function(test){
+
+  var view = cornea.create({
+        data : {
+          "foo" : "name"
+        },
+        template : function(){
+          var input = document.createElement("input")
+          this.binding("foo").bindAttribute(input, "value", {
+            template: "yo #{*}"
+          })
+          return input
+        }
+      })
+    , el
+
+  view.render()
+  el = view.element.querySelector("input")
+
+  test.equal(el.value, "yo name")
+  view.update("foo", "foo")
+  test.equal(view.element.querySelector("input"), el, "same element")
+  test.equal(el.value, "yo foo")
+  test.end()
+
+})
