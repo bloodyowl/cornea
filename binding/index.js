@@ -31,7 +31,7 @@ module.exports = klass.extend({
     if(options.attributes) {
       Object.keys(options.attributes)
         .forEach(function(key){
-          node.setAttribute(key, options.attributes[key])
+          attribute.set(node, key, options.attributes[key])
         })
     }
 
