@@ -39,7 +39,6 @@ tape("createListener (selector)", function(test){
           test.equal(fakeView, this, "passes view as thisValue")
           test.equal(target, div, "passes target")
           test.equal(eventObject, fakeEventObject, "passes eventObject")
-          test.end()
         }
       }
     , listener
