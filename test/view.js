@@ -8,12 +8,12 @@ function customEvent(element, type) {
 }
 
 tape("events", function(test){
-  
+
   test.plan(13)
-  
+
   var div = document.createElement("div")
     , span = document.createElement("span")
-  
+
   var view = cornea.create({
     initialize : function(){
       test.equal(++this.VALUE, 1, "initialize has thisValue")
@@ -64,14 +64,14 @@ tape("events", function(test){
 
   div.className = "testClass-div--listener"
   span.className = "testClass-span--listener"
-  
+
   document.body.appendChild(div)
   div.appendChild(span)
-  
+
   customEvent(span, "foo")
   customEvent(span, "bar")
   customEvent(span, "baz")
-  
+
   setTimeout(function(){
     view.destroy()
     customEvent(span, "foo")
@@ -79,6 +79,44 @@ tape("events", function(test){
     customEvent(span, "baz")
   }, 300)
 
+})
+
+tape("class events", function(test){
+
+  test.plan(3)
+  var view = cornea.create()
+
+  view.listen("foo", listener)
+  function listener(value){
+    test.equal(value, 1)
+  }
+  view.listen("foo", function(value){
+    test.equal(value, 1)
+  })
+  view.listen("bar", function(value){
+    test.equal(value, 1)
+  })
+
+  view.fireSync("foo", 1)
+  view.stopListening("foo", listener)
+  view.fireSync("foo", 1)
+  view.stopListening()
+  view.fireSync("bar", 1)
+  view.fireSync("foo", 1)
+})
+
+tape("class events", function(test){
+
+  test.plan(1)
+  var view = cornea.create()
+
+  view.listen("foo", listener)
+  function listener(value){
+    test.equal(value, 1)
+    view.stopListening()
+    view.fire("foo", 2)
+  }
+  view.fire("foo", 1)
 })
 
 

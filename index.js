@@ -1,4 +1,4 @@
-var klass = require("bloody-class")
+var eventClass = require("bloody-events")
   , events = require("./events")
   , binding = require("./binding")
   , attribute = require("./binding/attribute")
@@ -7,9 +7,10 @@ var klass = require("bloody-class")
   , empty = function(){return ""}
   , _forEach = [].forEach
 
-module.exports = klass.extend({
+module.exports = eventClass.extend({
 
   constructor : function(object){
+    eventClass.constructor.call(this)
     extend(this, object)
     if(typeof this.element == "string") {
       this.element = document.querySelector(this.element)
