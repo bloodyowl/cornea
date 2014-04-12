@@ -46,32 +46,6 @@ Object for template data, bindings relate to it.
 
 Updates bindings for `key` with `value`.
 
-## class-events
-
-**NOTE** : These are `cornea` events, not DOM ones.
-This is mainly app communication.
-
-### `cornea.listen(type, listener)`
-
-listens the the `type` event and attaches `listener` to it.
-
-### `cornea.stopListening([type[, listener]])`
-
-stops listening :
-
-- if no argument is set : all events
-- if `type` is set : all `type` events
-- if `type` and `listener` are set : the `listener` for this `type`
-
-### `cornea.fire(type[, data…])`
-
-fires asynchronously the given `type` event, passing the `data…` arguments to the listeners.
-
-### `cornea.fireSync(type[, data])`
-
-fires synchronously the given `type` event, passing the `data…` arguments to the listeners.
-
-
 ### `binding`
 
 #### `binding.toNode(bindingOptions)`
@@ -140,6 +114,32 @@ List of events to bind.
 
 **note** : if `view.listener` changes, it will affect the event callback
 (a hook is set and fetches the right method)
+
+## class-events
+
+**NOTE** : These are `cornea` events, not DOM ones.
+This is mainly app communication.
+
+### `cornea.listen(type, listener)`
+
+listens the the `type` event and attaches `listener` to it.
+
+### `cornea.stopListening([type[, listener]])`
+
+stops listening :
+
+- if no argument is set : all events
+- if `type` is set : all `type` events
+- if `type` and `listener` are set : the `listener` for this `type`
+
+### `cornea.fire(type[, data…])`
+
+fires asynchronously the given `type` event, passing the `data…` arguments to the listeners.
+
+### `cornea.fireSync(type[, data])`
+
+fires synchronously the given `type` event, passing the `data…` arguments to the listeners.
+
 
 ## example
 
