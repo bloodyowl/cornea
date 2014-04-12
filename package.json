@@ -1,6 +1,6 @@
 {
   "name": "cornea",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "mess-avoider ",
   "main": "index.js",
   "scripts": {
@@ -21,7 +21,8 @@
     "testling": "^1.6.1"
   },
   "dependencies": {
-    "bloody-events": "^0.2.1"
+    "bloody-events": "^0.2.1",
+    "bloody-class": "^1.2.1"
   },
   "testling": {
     "files": "test/**.js",
