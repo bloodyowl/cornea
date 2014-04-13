@@ -15,7 +15,7 @@ module.exports = eventClass.extend({
     if(typeof this.element == "string") {
       this.element = document.querySelector(this.element)
       if(!this.element) {
-        throw new Error("node has not been found")
+        return
       }
     }
     if(!this.element) {

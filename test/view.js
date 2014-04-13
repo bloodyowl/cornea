@@ -137,10 +137,3 @@ tape("get element by selector", function(test){
   test.equal(view.element, div, "gets by selector")
   test.end()
 })
-
-tape("throws if no element was found", function(test){
-  test.throws(function(){
-    var view = cornea.create({element:"thisWillfail"})
-  })
-  test.end()
-})
