@@ -6,7 +6,6 @@ module.exports = klass.extend({
   constructor : function(){
     this.element = document.createElement("style")
     head.appendChild(this.element)
-    this.sheet = this.element.sheet
     this._selectors = {}
   },
   destructor : function(){
@@ -16,14 +15,14 @@ module.exports = klass.extend({
     this.element = null
   },
   createRule : function(selectorText){
-    var index = this.sheet.cssRules.length
+    var index = this.element.sheet.cssRules.length
       , selector = selectorText.trim()
     this._selectors[selector] = index
-    this.sheet.insertRule(
+    this.element.sheet.insertRule(
       selector + " {}",
       index
     )
-    return this.sheet.rules[index]
+    return this.element.sheet.cssRules[index]
   },
   getRule : function(selectorText){
     var selector = selectorText.trim()
@@ -31,7 +30,7 @@ module.exports = klass.extend({
     if(index == null) {
       return null
     }
-    return this.sheet.rules[index]
+    return this.element.sheet.cssRules[index]
   },
   setStyle : function(selectorText, properties){
     var rule = this.getRule(selectorText)

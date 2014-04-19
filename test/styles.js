@@ -13,7 +13,7 @@ tape("styles", function(test){
   test.equal(style.element.parentNode, head, "inserted stylesheet")
   rule = style.createRule(".foo")
   test.equal(rule.selectorText, ".foo", "creates rules")
-  test.equal(style.sheet.rules[0].selectorText, ".foo", "rule assimilated")
+  test.equal(style.element.sheet.cssRules[0].selectorText, ".foo", "rule assimilated")
   test.equal(style._selectors[".foo"], 0, "rule stored")
   test.equal(style.getRule(".foo"), rule, "rule fetched")
   test.equal(style.getRule(" .foo   "), rule, "trimmed rule fetched")
