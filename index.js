@@ -2,12 +2,15 @@ var eventClass = require("bloody-events")
   , events = require("./events")
   , binding = require("./binding")
   , attribute = require("./binding/attribute")
+  , styles = require("./styles")
   , template = require("./template")
   , extend = require("./utils/extend")
   , empty = function(){return ""}
   , _forEach = [].forEach
 
 module.exports = eventClass.extend({
+
+  _styles: null,
 
   constructor : function(object){
     eventClass.constructor.call(this)
@@ -32,6 +35,9 @@ module.exports = eventClass.extend({
       this.release.apply(this, arguments)
     }
     this.removeEvents()
+    if(this._styles != null) {
+      this._styles.destroy()
+    }
   },
 
   initEvents : function(){
@@ -78,5 +84,13 @@ module.exports = eventClass.extend({
       content = template(templateString, value, element.hasAttribute(binding.ATTRIBUTE_ESCAPE))
       attribute.set(element, property, content)
     })
+  },
+
+  setStyle : function(selectorText, properties){
+    if(this._styles == null) {
+      this._styles = styles.create()
+    }
+    this._styles.setStyle(selectorText, properties)
   }
+
 })

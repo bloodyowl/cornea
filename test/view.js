@@ -7,6 +7,15 @@ function customEvent(element, type) {
   element.dispatchEvent(evt)
 }
 
+tape("no element found", function(test){
+  test.doesNotThrow(function(){
+    cornea.create({
+      element : "doesntexist"
+    })
+  })
+  test.end()
+})
+
 tape("events", function(test){
 
   test.plan(13)
@@ -135,5 +144,32 @@ tape("get element by selector", function(test){
   document.body.appendChild(div)
   var view = cornea.create({element:"#foobarbaz"})
   test.equal(view.element, div, "gets by selector")
+  test.end()
+})
+
+
+tape("styles", function(test){
+  var div = document.createElement("div")
+  div.id = "stylesTest"
+  document.body.appendChild(div)
+  var view = cornea.create({element:"#stylesTest"})
+  view.setStyle("#stylesTest", {
+    "font-size" : "60px"
+  })
+  view.setStyle("#stylesTest", {
+    "font-size" : "40px"
+  })
+  test.equal(getComputedStyle(div, null).getPropertyValue("font-size"), "40px")
+  view.destroy()
+  test.equal(getComputedStyle(div, null).getPropertyValue("font-size"), "16px")
+  test.end()
+})
+
+tape("extension", function(test){
+  cornea.extend({
+    initialize : function(){
+      test.pass()
+    }
+  }).create()
   test.end()
 })

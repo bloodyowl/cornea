@@ -46,6 +46,17 @@ Object for template data, bindings relate to it.
 
 Updates bindings for `key` with `value`.
 
+### `cornea.setStyle(selector, properties)`
+
+Sets the style for the given `selector` with the properties.
+
+`properties` should be written like `{"font-size":"3em"}`.
+
+Passing `null` as a value resets the property to its defaults.
+
+**NOTE** : careful, styles are not scoped, selectors affect all the elements
+in the DOM.
+
 ### `binding`
 
 #### `binding.toNode(bindingOptions)`
@@ -166,8 +177,12 @@ module.exports = cornea.extend({
   hide : function(){
     this.element.classList.remove("Lightbox--visible")
   },
-  show : function(){
+  show : function(left, top){
     this.element.classList.add("Lightbox--visible")
+    this.setStyle(".Lightbox", {
+      "top" : top + "px",
+      "left" : left + "px"
+    })
     this.fire("lightbox:show")
   },
   template : function(data){
