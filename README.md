@@ -4,6 +4,18 @@
 
 cornea is a simple view manager inspired by [backbonejs](http://backbonejs.org) to help you organise your code.
 
+## key features
+
+- DOM event organiser
+- testable methods
+- compatible with any kind of templates (string and nodes)
+- elements/attributes/properties binding (with micro-templates)
+- dynamic stylesheet modification for high performance
+- class-event for modules communication
+- no zombie-view
+- creation and destruction hooks
+- 4k minified and gzip
+
 ## install
 
 ```shell
