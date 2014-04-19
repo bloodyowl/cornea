@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Cornea by bloodyowl</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Cornea</h1>
+        <h2>view handler, avoids mess</h2>
+        <a href="https://github.com/bloodyowl/cornea" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a name="cornea" class="anchor" href="#cornea"><span class="octicon octicon-link"></span></a>cornea</h1>
+
+<p><a href="https://ci.testling.com/bloodyowl/cornea"><img src="https://ci.testling.com/bloodyowl/cornea.png" alt="browser support"></a></p>
+
+<p>cornea is a simple view manager inspired by <a href="http://backbonejs.org">backbonejs</a> to help you organise your code.</p>
+
+<h2>
+<a name="key-features" class="anchor" href="#key-features"><span class="octicon octicon-link"></span></a>key features</h2>
+
+<ul>
+<li>DOM event organiser</li>
+<li>testable methods</li>
+<li>compatible with any kind of templates (string and nodes)</li>
+<li>elements/attributes/properties binding (with micro-templates)</li>
+<li>dynamic stylesheet modification for high performance</li>
+<li>class-event for modules communication</li>
+<li>no zombie-view</li>
+<li>creation and destruction hooks</li>
+<li>4k minified and gzip</li>
+</ul><h2>
+<a name="install" class="anchor" href="#install"><span class="octicon octicon-link"></span></a>install</h2>
+
+<pre lang="shell"><code>$ npm install cornea
+</code></pre>
+
+<h2>
+<a name="require" class="anchor" href="#require"><span class="octicon octicon-link"></span></a>require</h2>
+
+<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">cornea</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"cornea"</span><span class="p">)</span>
+</pre></div>
+
+<h2>
+<a name="use" class="anchor" href="#use"><span class="octicon octicon-link"></span></a>use</h2>
+
+<h3>
+<a name="corneaextendoptions" class="anchor" href="#corneaextendoptions"><span class="octicon octicon-link"></span></a><code>cornea.extend(options)</code>
+</h3>
+
+<p>Creates a subclass. Useful for sharing common handlers.</p>
+
+<h3>
+<a name="corneacreateoptions" class="anchor" href="#corneacreateoptions"><span class="octicon octicon-link"></span></a><code>cornea#create(options)</code>
+</h3>
+
+<p>Creates a <code>cornea</code> view. Binds events.</p>
+
+<h3>
+<a name="corneadestroy" class="anchor" href="#corneadestroy"><span class="octicon octicon-link"></span></a><code>cornea#destroy</code>
+</h3>
+
+<p>Unbinds the events.</p>
+
+<h3>
+<a name="cornearender" class="anchor" href="#cornearender"><span class="octicon octicon-link"></span></a><code>cornea#render</code>
+</h3>
+
+<p>Renders the given template into <code>view.element</code>.</p>
+
+<h3>
+<a name="corneabindingkey" class="anchor" href="#corneabindingkey"><span class="octicon octicon-link"></span></a><code>cornea.binding(key)</code>
+</h3>
+
+<p>Returns a <code>binding</code> object for the given <code>key</code>.</p>
+
+<h3>
+<a name="corneadata" class="anchor" href="#corneadata"><span class="octicon octicon-link"></span></a><code>cornea.data</code>
+</h3>
+
+<p>Object for template data, bindings relate to it.</p>
+
+<h3>
+<a name="corneaupdatekey-value" class="anchor" href="#corneaupdatekey-value"><span class="octicon octicon-link"></span></a><code>cornea.update(key, value)</code>
+</h3>
+
+<p>Updates bindings for <code>key</code> with <code>value</code>.</p>
+
+<h3>
+<a name="corneasetstyleselector-properties" class="anchor" href="#corneasetstyleselector-properties"><span class="octicon octicon-link"></span></a><code>cornea.setStyle(selector, properties)</code>
+</h3>
+
+<p>Sets the style for the given <code>selector</code> with the properties.</p>
+
+<p><code>properties</code> should be written like <code>{"font-size":"3em"}</code>.</p>
+
+<p>Passing <code>null</code> as a value resets the property to its defaults.</p>
+
+<p><strong>NOTE</strong> : careful, styles are not scoped, selectors affect all the elements
+in the DOM.</p>
+
+<h3>
+<a name="binding" class="anchor" href="#binding"><span class="octicon octicon-link"></span></a><code>binding</code>
+</h3>
+
+<h4>
+<a name="bindingtonodebindingoptions" class="anchor" href="#bindingtonodebindingoptions"><span class="octicon octicon-link"></span></a><code>binding.toNode(bindingOptions)</code>
+</h4>
+
+<p>Returns a bound node.</p>
+
+<h4>
+<a name="bindingtostringbindingoptions" class="anchor" href="#bindingtostringbindingoptions"><span class="octicon octicon-link"></span></a><code>binding.toString(bindingOptions)</code>
+</h4>
+
+<p>Returns the string representation of a bound node.</p>
+
+<h5>
+<a name="bindingoptions" class="anchor" href="#bindingoptions"><span class="octicon octicon-link"></span></a><code>bindingOptions</code>
+</h5>
+
+<ul>
+<li><code>bindingOptions.escape</code></li>
+<li><code>bindingOptions.className</code></li>
+<li><code>bindingOptions.nodeName</code></li>
+<li>
+<code>bindingOptions.attributes</code> (object, as key:value)</li>
+<li>
+<code>bindingOptions.template</code> (string, where <code>#{*}</code> is the bound value)</li>
+</ul><h4>
+<a name="bindingbindattributenode-attributename-options" class="anchor" href="#bindingbindattributenode-attributename-options"><span class="octicon octicon-link"></span></a><code>binding.bindAttribute(node, attributeName, options)</code>
+</h4>
+
+<p>Binds <code>attributeName</code>.
+Options are :</p>
+
+<ul>
+<li><code>bindingOptions.escape</code></li>
+<li><code>bindingOptions.template</code></li>
+</ul><h3>
+<a name="options" class="anchor" href="#options"><span class="octicon octicon-link"></span></a><code>options</code>
+</h3>
+
+<h4>
+<a name="optionselement" class="anchor" href="#optionselement"><span class="octicon octicon-link"></span></a><code>options.element</code>
+</h4>
+
+<p><code>String</code> or <code>Node</code>, optional.
+View root.
+If not defined, an empty <code>&lt;div&gt;</code> will be created.</p>
+
+<h4>
+<a name="optionstemplate" class="anchor" href="#optionstemplate"><span class="octicon octicon-link"></span></a><code>options.template</code>
+</h4>
+
+<p><code>Function</code>, optional (default : <code>-&gt; ""</code>).</p>
+
+<p>Template called on <code>.render</code>. Should return a <code>string</code> or a <code>node</code>.</p>
+
+<h4>
+<a name="optionsinitialize" class="anchor" href="#optionsinitialize"><span class="octicon octicon-link"></span></a><code>options.initialize</code>
+</h4>
+
+<p><code>Function</code>, optional.
+Code to execute when the <code>view.create</code> method is called.
+Its <code>thisValue</code> is the current <code>view</code> and its arguments are the one passed to <code>view.create</code>.</p>
+
+<p><strong>note</strong> The first <code>.create</code> argument is though reserved to the <code>view</code> extension.  </p>
+
+<h4>
+<a name="optionsrelease" class="anchor" href="#optionsrelease"><span class="octicon octicon-link"></span></a><code>options.release</code>
+</h4>
+
+<p><code>Function</code>, optional.
+Code to execute when the <code>view.destroy</code> method is called.</p>
+
+<h4>
+<a name="optionsevents" class="anchor" href="#optionsevents"><span class="octicon octicon-link"></span></a><code>options.events</code>
+</h4>
+
+<p><code>Array</code>, optional.
+List of events to bind.</p>
+
+<h4>
+<a name="optionseventsindex" class="anchor" href="#optionseventsindex"><span class="octicon octicon-link"></span></a><code>options.events[index]</code>
+</h4>
+
+<ul>
+<li>
+<code>type</code> String, event type (e.g. <code>click</code>)</li>
+<li>
+<code>selector</code> String (optional), delegation selector</li>
+<li>
+<code>listener</code> String, name of the view's method to bind</li>
+<li>
+<code>capture</code> Boolean (optional, default: <code>false</code>), <code>useCapture</code> flag.</li>
+</ul><p><strong>note</strong> : if <code>view.listener</code> changes, it will affect the event callback
+(a hook is set and fetches the right method)</p>
+
+<h2>
+<a name="class-events" class="anchor" href="#class-events"><span class="octicon octicon-link"></span></a>class-events</h2>
+
+<p><strong>NOTE</strong> : These are <code>cornea</code> events, not DOM ones.
+This is mainly app communication.</p>
+
+<h3>
+<a name="cornealistentype-listener" class="anchor" href="#cornealistentype-listener"><span class="octicon octicon-link"></span></a><code>cornea.listen(type, listener)</code>
+</h3>
+
+<p>listens the the <code>type</code> event and attaches <code>listener</code> to it.</p>
+
+<h3>
+<a name="corneastoplisteningtype-listener" class="anchor" href="#corneastoplisteningtype-listener"><span class="octicon octicon-link"></span></a><code>cornea.stopListening([type[, listener]])</code>
+</h3>
+
+<p>stops listening :</p>
+
+<ul>
+<li>if no argument is set : all events</li>
+<li>if <code>type</code> is set : all <code>type</code> events</li>
+<li>if <code>type</code> and <code>listener</code> are set : the <code>listener</code> for this <code>type</code>
+</li>
+</ul><h3>
+<a name="corneafiretype-data" class="anchor" href="#corneafiretype-data"><span class="octicon octicon-link"></span></a><code>cornea.fire(type[, data…])</code>
+</h3>
+
+<p>fires asynchronously the given <code>type</code> event, passing the <code>data…</code> arguments to the listeners.</p>
+
+<h3>
+<a name="corneafiresynctype-data" class="anchor" href="#corneafiresynctype-data"><span class="octicon octicon-link"></span></a><code>cornea.fireSync(type[, data])</code>
+</h3>
+
+<p>fires synchronously the given <code>type</code> event, passing the <code>data…</code> arguments to the listeners.</p>
+
+<h2>
+<a name="example" class="anchor" href="#example"><span class="octicon octicon-link"></span></a>example</h2>
+
+<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">cornea</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"cornea"</span><span class="p">)</span>
+  <span class="p">,</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"./app"</span><span class="p">)</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">cornea</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">element</span> <span class="o">:</span> <span class="s2">".Lightbox"</span><span class="p">,</span>
+  <span class="nx">initialize</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+    <span class="kd">var</span> <span class="nx">lightbox</span> <span class="o">=</span> <span class="k">this</span>
+    <span class="nx">app</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="s2">"lightbox:show"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">){</span>
+      <span class="nx">lightbox</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="s2">"value"</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span>
+      <span class="nx">lightbox</span><span class="p">.</span><span class="nx">show</span><span class="p">()</span>
+    <span class="p">})</span>
+  <span class="p">},</span>
+  <span class="nx">events</span> <span class="o">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nx">type</span> <span class="o">:</span> <span class="s2">"click"</span><span class="p">,</span>
+      <span class="nx">selector</span> <span class="o">:</span> <span class="s2">".js-close"</span><span class="p">,</span>
+      <span class="nx">listener</span> <span class="o">:</span> <span class="s2">"hide"</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nx">hide</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="s2">"Lightbox--visible"</span><span class="p">)</span>
+  <span class="p">},</span>
+  <span class="nx">show</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">left</span><span class="p">,</span> <span class="nx">top</span><span class="p">){</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s2">"Lightbox--visible"</span><span class="p">)</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setStyle</span><span class="p">(</span><span class="s2">".Lightbox"</span><span class="p">,</span> <span class="p">{</span>
+      <span class="s2">"top"</span> <span class="o">:</span> <span class="nx">top</span> <span class="o">+</span> <span class="s2">"px"</span><span class="p">,</span>
+      <span class="s2">"left"</span> <span class="o">:</span> <span class="nx">left</span> <span class="o">+</span> <span class="s2">"px"</span>
+    <span class="p">})</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">fire</span><span class="p">(</span><span class="s2">"lightbox:show"</span><span class="p">)</span>
+  <span class="p">},</span>
+  <span class="nx">template</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">){</span>
+    <span class="k">return</span> <span class="p">[</span>
+      <span class="s2">"&lt;div class='Lightbox-overlay'&gt;&lt;/div&gt;"</span><span class="p">,</span>
+      <span class="s2">"&lt;div class='Lightbox-lightbox'&gt;"</span><span class="p">,</span>
+        <span class="s2">"&lt;button class='Lightbox-close js-Close'&gt;&amp;times;&lt;/button&gt;"</span><span class="p">,</span>
+          <span class="k">this</span><span class="p">.</span><span class="nx">binding</span><span class="p">(</span><span class="s2">"value"</span><span class="p">).</span><span class="nx">toString</span><span class="p">({</span>
+            <span class="nx">className</span> <span class="o">:</span> <span class="s2">"Lightbox-content"</span><span class="p">,</span>
+            <span class="nx">escape</span> <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="nx">nodeName</span> <span class="o">:</span> <span class="s2">"div"</span>
+          <span class="p">}),</span>
+      <span class="s2">"&lt;/div&gt;"</span>
+    <span class="p">].</span><span class="nx">join</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
+  <span class="p">},</span>
+  <span class="nx">data</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="nx">value</span> <span class="o">:</span> <span class="s2">""</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</pre></div>
+
+<p>and init your view :</p>
+
+<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">view</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"./myView"</span><span class="p">)</span>
+  <span class="p">,</span> <span class="nx">otherView</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"./otherView"</span><span class="p">).</span><span class="nx">create</span><span class="p">()</span>
+
+<span class="kd">var</span> <span class="nx">myView</span> <span class="o">=</span> <span class="nx">view</span><span class="p">.</span><span class="nx">create</span><span class="p">()</span>
+
+<span class="nx">myView</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="s2">"value"</span><span class="p">,</span> <span class="s2">"oh hai"</span><span class="p">)</span>
+<span class="nx">myView</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="s2">"lightbox:show"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+  <span class="nx">otherView</span><span class="p">.</span><span class="nx">hide</span><span class="p">()</span>
+<span class="p">})</span>
+</pre></div>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/bloodyowl/cornea/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/bloodyowl/cornea/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/bloodyowl/cornea"></a> is maintained by <a href="https://github.com/bloodyowl">bloodyowl</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
