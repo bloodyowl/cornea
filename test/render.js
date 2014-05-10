@@ -51,6 +51,7 @@ tape("render (escaped)", function(test){
 
   test.equal(el.innerHTML, "&lt;div&gt;")
   view.update("foo", "<span>")
+  test.equal(view.data.foo, "<span>")
   test.equal(view.element.querySelector(".test"), el, "same element")
   test.equal(el.innerHTML, "&lt;span&gt;")
   test.end()

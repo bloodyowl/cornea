@@ -74,7 +74,9 @@ module.exports = eventClass.extend({
   },
 
   update : function(key, value){
-    this.data[key] = value
+    if(this.data != null) {
+      this.data[key] = value
+    }
     _forEach.call(this.bindings, function(element){
       var property, templateString, content
       if(element.getAttribute(binding.ATTRIBUTE_KEY) != key) {
