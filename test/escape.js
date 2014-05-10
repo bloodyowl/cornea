@@ -7,6 +7,9 @@ tape("escape", function(test){
     , expected = "&lt;div class=&quot;foo&quot; id=&#39;bar&#39;&gt;&amp;&lt;/div&gt;"
 
   test.equal(escaped, expected)
+  test.equal(esc(1), "1", "accepts numbers")
+  test.equal(esc(null), "", "ignores null")
+  test.equal(esc(void 0), "", "ignores undefined")
   test.end()
 
 })

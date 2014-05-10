@@ -13,5 +13,8 @@ function escapeHTML(match) {
 }
 
 module.exports = function(string){
-  return string.replace(regExp, escapeHTML)
+  if(string == null) {
+    return ""
+  }
+  return String(string).replace(regExp, escapeHTML)
 }
