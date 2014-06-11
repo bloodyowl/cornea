@@ -5,7 +5,25 @@ var docEl = document.documentElement
       docEl.webkitMatchesSelector ||
       docEl.mozMatchesSelector ||
       docEl.oMatchesSelector ||
-      docEl.msMatchesSelector
+      docEl.msMatchesSelector ||
+      function(selector) {
+        var element = this
+        var parent = element.parentNode
+        var match
+        var index = -1
+        var length
+        if(!parent) {
+          return false
+        }
+        match = parent.querySelectorAll(selector)
+        length = match.length
+        while(++index < length) {
+          if(match[index] == element) {
+            return true
+          }
+        }
+        return false
+      }
 
 if(!nativeMatchesSelector) {
   throw new Error("this browser does not support .matchesSelector")
