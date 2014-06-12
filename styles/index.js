@@ -1,5 +1,5 @@
 var klass = require("bloody-class")
-  , head = document.head || document.getElementByTagName("head")[0]
+  , head = document.head || document.getElementsByTagName("head")[0]
   , hasOwnProperty = Object.prototype.hasOwnProperty
 
 module.exports = klass.extend({
