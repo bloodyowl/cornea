@@ -143,11 +143,11 @@ List of events to bind.
 **NOTE** : These are `cornea` events, not DOM ones.
 This is mainly app communication.
 
-### `cornea.listen(type, listener)`
+### `cornea.on(type, listener)`
 
 listens the the `type` event and attaches `listener` to it.
 
-### `cornea.stopListening([type[, listener]])`
+### `cornea.off([type[, listener]])`
 
 stops listening :
 
@@ -155,11 +155,7 @@ stops listening :
 - if `type` is set : all `type` events
 - if `type` and `listener` are set : the `listener` for this `type`
 
-### `cornea.fire(type[, data…])`
-
-fires asynchronously the given `type` event, passing the `data…` arguments to the listeners.
-
-### `cornea.fireSync(type[, data])`
+### `cornea.emit(type[, data…])`
 
 fires synchronously the given `type` event, passing the `data…` arguments to the listeners.
 

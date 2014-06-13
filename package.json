@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "bloody-class": "^1.2.1",
-    "bloody-events": "^0.2.2"
+    "bloody-events": "^1.0.0"
   },
   "testling": {
     "files": "test/**.js",
