@@ -1,12 +1,12 @@
 var htmlChars = {
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      "'": "&quot;",
-      "\"": "&#39;"
-    }
-  , keys = Object.keys(htmlChars)
-  , regExp = RegExp("[" + keys.join("") + "]", "g")
+  "&": "&amp;",
+  "<": "&lt;",
+  ">": "&gt;",
+  "'": "&quot;",
+  "\"": "&#39;"
+}
+var keys = Object.keys(htmlChars)
+var regExp = RegExp("[" + keys.join("") + "]", "g")
 
 function escapeHTML(match) {
   return htmlChars[match]

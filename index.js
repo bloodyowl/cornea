@@ -1,15 +1,15 @@
 var eventClass = require("bloody-events")
-  , events = require("./events")
-  , binding = require("./binding")
-  , attribute = require("./binding/attribute")
-  , styles = require("./styles")
-  , template = require("./template")
-  , extend = require("./utils/extend")
-  , empty = function(){return ""}
-  , _forEach = [].forEach
-  , asap = require("asap")
-  , promise = require("bloody-promise")
-  , uniq = -1
+var events = require("./events")
+var binding = require("./binding")
+var attribute = require("./binding/attribute")
+var styles = require("./styles")
+var template = require("./template")
+var extend = require("./utils/extend")
+var empty = function(){return ""}
+var _forEach = [].forEach
+var asap = require("asap")
+var promise = require("bloody-promise")
+var uniq = -1
 
 module.exports = eventClass.extend({
 

@@ -1,5 +1,5 @@
 var tape = require("tape")
-  , template = require("../template")
+var template = require("../template")
 
 tape("template", function(test){
 

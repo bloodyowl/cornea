@@ -1,6 +1,6 @@
 var klass = require("bloody-class")
-  , template = require("../template")
-  , attribute = require("./attribute")
+var template = require("../template")
+var attribute = require("./attribute")
 
 module.exports = klass.extend({
 
@@ -20,10 +20,12 @@ module.exports = klass.extend({
   },
 
   toNode : function(options){
-    if(options == void 0) options = {}
+    if(options == void 0) {
+      options = {}
+    }
     var node = document.createElement(options.nodeName || "span")
-      , escape = options.hasOwnProperty("escape") ? options.escape : true
-      , tmpl
+    var escape = options.hasOwnProperty("escape") ? options.escape : true
+    var tmpl
     node.className =
       this.CLASSNAME_BINDING +
       (options.className ? " " + options.className : "")
@@ -38,21 +40,29 @@ module.exports = klass.extend({
 
     node.setAttribute(this.ATTRIBUTE_BINDING, "innerHTML")
     node.setAttribute(this.ATTRIBUTE_KEY, this.key)
-    node.setAttribute(this.ATTRIBUTE_TEMPLATE, tmpl = options.template || "#{*}")
-    if(escape) node.setAttribute(this.ATTRIBUTE_ESCAPE, "")
+    tmpl = options.template || "#{*}"
+    node.setAttribute(this.ATTRIBUTE_TEMPLATE, tmpl)
+    if(escape) {
+      node.setAttribute(this.ATTRIBUTE_ESCAPE, "")
+    }
     attribute.set(node, "innerHTML", template(tmpl, this.view.data && this.view.data[this.key], escape))
     return node
   },
 
   bindAttribute : function(node, attributeName, options){
-    if(options == void 0) options = {}
+    if(options == void 0) {
+      options = {}
+    }
     var escape = options.hasOwnProperty("escape") ? options.escape : true
-      , tmpl
+    var tmpl
     node.setAttribute(this.ATTRIBUTE_BINDING, attributeName)
     node.setAttribute(this.ATTRIBUTE_KEY, this.key)
-    node.setAttribute(this.ATTRIBUTE_TEMPLATE, tmpl = options.template || "#{*}")
+    tmpl = options.template || "#{*}"
+    node.setAttribute(this.ATTRIBUTE_TEMPLATE, tmpl)
     node.className = (node.className + " " + this.CLASSNAME_BINDING).trim()
-    if(escape) node.setAttribute(this.ATTRIBUTE_ESCAPE, "")
+    if(escape) {
+      node.setAttribute(this.ATTRIBUTE_ESCAPE, "")
+    }
     attribute.set(node, attributeName, template(tmpl, this.view.data && this.view.data[this.key], escape))
   }
 })

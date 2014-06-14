@@ -1,6 +1,6 @@
 var klass = require("bloody-class")
-  , head = document.head || document.getElementsByTagName("head")[0]
-  , hasOwnProperty = Object.prototype.hasOwnProperty
+var head = document.head || document.getElementsByTagName("head")[0]
+var hasOwnProperty = Object.prototype.hasOwnProperty
 
 module.exports = klass.extend({
   constructor : function(view){
@@ -25,7 +25,7 @@ module.exports = klass.extend({
   },
   createRule : function(selectorText){
     var index = this.element.sheet.cssRules.length
-      , selector = selectorText.trim()
+    var selector = selectorText.trim()
     this._selectors[selector] = index
     this.element.sheet.insertRule(
       this._createSelector(selector) + " {}",
@@ -35,7 +35,7 @@ module.exports = klass.extend({
   },
   getRule : function(selectorText){
     var selector = selectorText.trim()
-      , index = this._selectors[selector]
+    var index = this._selectors[selector]
     if(index == null) {
       return null
     }
@@ -43,7 +43,8 @@ module.exports = klass.extend({
   },
   setStyle : function(selectorText, properties){
     var rule = this.getRule(selectorText)
-      , key, property
+    var key
+    var property
     if(rule == null) {
       rule = this.createRule(selectorText)
     }

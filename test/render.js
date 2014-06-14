@@ -1,19 +1,19 @@
 var tape = require("tape")
-  , cornea = require("../")
+var cornea = require("../")
 
 tape("render", function(test){
 
   var view = cornea.create({
-        template : function(){
-          return [
-            "<div>",
-            this.binding("foo").toString({
-              nodeName : "span"
-            }),
-            "</div>"
-          ].join("")
-        }
-      })
+    template : function(){
+      return [
+        "<div>",
+        this.binding("foo").toString({
+          nodeName : "span"
+        }),
+        "</div>"
+      ].join("")
+    }
+  })
 
   view.render(function(){
     test.equal(view.bindings.length, 1)
@@ -30,24 +30,24 @@ tape("render", function(test){
 tape("render (escaped)", function(test){
 
   var view = cornea.create({
-        getInitialData : function(){
-          return {
-            "foo" : "<div>"
-          }
-        },
-        template : function(){
-          return [
-            "<div>",
-            this.binding("foo").toString({
-              className : "test",
-              nodeName : "span",
-              escape : true
-            }),
-            "</div>"
-          ].join("")
-        }
-      })
-    , el
+    getInitialData : function(){
+      return {
+        "foo" : "<div>"
+      }
+    },
+    template : function(){
+      return [
+        "<div>",
+        this.binding("foo").toString({
+          className : "test",
+          nodeName : "span",
+          escape : true
+        }),
+        "</div>"
+      ].join("")
+    }
+  })
+  var el
 
   view.render(function(){
     el = view.element.querySelector(".test")
@@ -68,24 +68,24 @@ tape("render (escaped)", function(test){
 tape("render (unescaped)", function(test){
 
   var view = cornea.create({
-        getInitialData : function(){
-          return {
-            "foo" : "<i></i>"
-          }
-        },
-        template : function(){
-          return [
-            "<div>",
-            this.binding("foo").toString({
-              className : "test",
-              nodeName : "span",
-              escape : false
-            }),
-            "</div>"
-          ].join("")
-        }
-      })
-    , el
+    getInitialData : function(){
+      return {
+        "foo" : "<i></i>"
+      }
+    },
+    template : function(){
+      return [
+        "<div>",
+        this.binding("foo").toString({
+          className : "test",
+          nodeName : "span",
+          escape : false
+        }),
+        "</div>"
+      ].join("")
+    }
+  })
+  var el
 
   view.render(function(){
     el = view.element.querySelector(".test")
@@ -105,20 +105,20 @@ tape("render (unescaped)", function(test){
 tape("render (value attribute)", function(test){
 
   var view = cornea.create({
-        getInitialData : function(){
-          return {
-            "foo" : "name"
-          }
-        },
-        template : function(){
-          var input = document.createElement("input")
-          this.binding("foo").bindAttribute(input, "value", {
-            template: "yo #{*}"
-          })
-          return input
-        }
+    getInitialData : function(){
+      return {
+        "foo" : "name"
+      }
+    },
+    template : function(){
+      var input = document.createElement("input")
+      this.binding("foo").bindAttribute(input, "value", {
+        template: "yo #{*}"
       })
-    , el
+      return input
+    }
+  })
+  var el
 
   view.render(function(){
     el = view.element.querySelector("input")
@@ -149,21 +149,21 @@ tape("render (no template)", function(test){
 tape("update loop", function(test){
 
   var view = cornea.create({
-        getInitialData : function(){
-          return {
-            "bar" : "name",
-            "foo" : "name"
-          }
-        },
-        template : function(){
-          var input = document.createElement("input")
-          this.binding("foo").bindAttribute(input, "value", {
-            template: "yo #{*}"
-          })
-          return input
-        }
+    getInitialData : function(){
+      return {
+        "bar" : "name",
+        "foo" : "name"
+      }
+    },
+    template : function(){
+      var input = document.createElement("input")
+      this.binding("foo").bindAttribute(input, "value", {
+        template: "yo #{*}"
       })
-    , el
+      return input
+    }
+  })
+  var el
 
   view.render(function(){
     el = view.element.querySelector("input")

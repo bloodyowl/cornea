@@ -1,11 +1,12 @@
 var tape = require("tape")
-  , binding = require("../binding")
-  , view = {data:{foo:"test"}}
+var binding = require("../binding")
+var view = {data:{foo:"test"}}
+
 tape("binding.toString", function(test){
 
   var b = binding.create(view, "foo")
-    , b1 = b.toString()
-    , b2 = b.toString({nodeName:"span"})
+  var b1 = b.toString()
+  var b2 = b.toString({nodeName:"span"})
 
   test.notEqual(b1.indexOf("class=\"cornea-binding\""), -1)
   test.notEqual(b1.indexOf("data-cornea-binding=\"innerHTML\""), -1)
@@ -22,7 +23,7 @@ tape("binding.toString", function(test){
 tape("binding.toNode", function(test){
 
   var b = binding.create(view, "foo")
-    , b1 = b.toNode()
+  var b1 = b.toNode()
 
   test.equal(b1.nodeName, "SPAN", "gets default nodeName")
   test.equal(b1.className, "cornea-binding", "sets className")
@@ -38,13 +39,13 @@ tape("binding.toNode", function(test){
 tape("binding.toNode (extend)", function(test){
 
   var b = binding.create(view, "foo")
-    , b1 = b.toNode({
-        nodeName:"span",
-        attributes:{"data-foo":"bar"},
-        className:"foo bar",
-        template:"it is #{*}",
-        escape:false
-      })
+  var b1 = b.toNode({
+    nodeName:"span",
+    attributes:{"data-foo":"bar"},
+    className:"foo bar",
+    template:"it is #{*}",
+    escape:false
+  })
 
   test.equal(b1.nodeName, "SPAN", "gets default nodeName")
   test.equal(b1.className, "cornea-binding foo bar", "sets className with custom ones")
@@ -61,7 +62,7 @@ tape("binding.toNode (extend)", function(test){
 tape("binding.bindAttribute", function(test){
 
   var b = binding.create(view, "foo")
-    , node = document.createElement("div")
+  var node = document.createElement("div")
 
   b.bindAttribute(node, "data-value")
   test.equal(node.className, "cornea-binding", "sets className")
@@ -77,7 +78,7 @@ tape("binding.bindAttribute", function(test){
 tape("binding.bindAttribute (extend)", function(test){
 
   var b = binding.create(view, "foo")
-    , node = document.createElement("div")
+  var node = document.createElement("div")
 
   b.bindAttribute(node, "data-value", {template:"foo #{*}", escape:false})
   test.equal(node.className, "cornea-binding", "sets className")

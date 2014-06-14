@@ -1,5 +1,5 @@
 var tape = require("tape")
-  , cornea = require("../")
+var cornea = require("../")
 
 function customEvent(element, type) {
   var evt = document.createEvent('Event')
@@ -21,7 +21,7 @@ tape("events", function(test){
   test.plan(13)
 
   var div = document.createElement("div")
-    , span = document.createElement("span")
+  var span = document.createElement("span")
 
   var view = cornea.create({
     initialize : function(){

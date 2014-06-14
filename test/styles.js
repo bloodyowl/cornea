@@ -1,14 +1,14 @@
 var tape = require("tape")
-  , styles = require("../styles")
+var styles = require("../styles")
 
 tape("styles", function(test){
 
   var style = styles.create({id:1})
-    , head = document.head || document.getElementsByTagName("head")[0]
-    , rule
-    , rule2
-    , div = document.createElement("div")
-    , element = style.element
+  var head = document.head || document.getElementsByTagName("head")[0]
+  var rule
+  var rule2
+  var div = document.createElement("div")
+  var element = style.element
 
   test.equal(style.element.nodeName, "STYLE", "created stylesheet")
   test.equal(style.element.parentNode, head, "inserted stylesheet")
