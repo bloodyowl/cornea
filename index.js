@@ -28,6 +28,7 @@ module.exports = eventClass.extend({
     if(!this.element) {
       this.element = document.createElement("div")
     }
+    this.bindings = []
     if(!this.element.hasAttribute("data-cornea-id")) {
       this.element.setAttribute("data-cornea-id", ++uniq)
     }
