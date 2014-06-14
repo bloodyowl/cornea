@@ -45,5 +45,5 @@ tape("hooks style", function(test){
     test.equal(++index, 0)
     test.end()
   })
-  view.setStyle(".foo", {opacity: 0})
+  view.setStyle(".foo", {opacity: "0"})
 })
