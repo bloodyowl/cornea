@@ -1,11 +1,12 @@
 var klass = require("bloody-class")
-  , head = document.head || document.getElementsByTagName("head")[0]
-  , hasOwnProperty = Object.prototype.hasOwnProperty
+var head = document.head || document.getElementsByTagName("head")[0]
+var hasOwnProperty = Object.prototype.hasOwnProperty
 
 module.exports = klass.extend({
-  constructor : function(){
+  constructor : function(view){
     this.element = document.createElement("style")
     head.appendChild(this.element)
+    this.view = view
     this._selectors = {}
   },
   destructor : function(){
@@ -14,19 +15,27 @@ module.exports = klass.extend({
     }
     this.element = null
   },
+  _createSelector : function(selector){
+    var scope = [
+      "[data-cornea-id=\"",
+        this.view.id,
+      "\"] "
+    ].join("")
+    return scope + selector.split(",").join(", " + scope)
+  },
   createRule : function(selectorText){
     var index = this.element.sheet.cssRules.length
-      , selector = selectorText.trim()
+    var selector = selectorText.trim()
     this._selectors[selector] = index
     this.element.sheet.insertRule(
-      selector + " {}",
+      this._createSelector(selector) + " {}",
       index
     )
     return this.element.sheet.cssRules[index]
   },
   getRule : function(selectorText){
     var selector = selectorText.trim()
-      , index = this._selectors[selector]
+    var index = this._selectors[selector]
     if(index == null) {
       return null
     }
@@ -34,7 +43,8 @@ module.exports = klass.extend({
   },
   setStyle : function(selectorText, properties){
     var rule = this.getRule(selectorText)
-      , key, property
+    var key
+    var property
     if(rule == null) {
       rule = this.createRule(selectorText)
     }

@@ -1,5 +1,5 @@
 var tape = require("tape")
-  , cornea = require("../")
+var cornea = require("../")
 
 function customEvent(element, type) {
   var evt = document.createEvent('Event')
@@ -21,7 +21,7 @@ tape("events", function(test){
   test.plan(13)
 
   var div = document.createElement("div")
-    , span = document.createElement("span")
+  var span = document.createElement("span")
 
   var view = cornea.create({
     initialize : function(){
@@ -95,23 +95,23 @@ tape("class events", function(test){
   test.plan(3)
   var view = cornea.create()
 
-  view.listen("foo", listener)
+  view.on("foo", listener)
   function listener(value){
     test.equal(value, 1)
   }
-  view.listen("foo", function(value){
+  view.on("foo", function(value){
     test.equal(value, 1)
   })
-  view.listen("bar", function(value){
+  view.on("bar", function(value){
     test.equal(value, 1)
   })
 
-  view.fireSync("foo", 1)
-  view.stopListening("foo", listener)
-  view.fireSync("foo", 1)
-  view.stopListening()
-  view.fireSync("bar", 1)
-  view.fireSync("foo", 1)
+  view.emit("foo", 1)
+  view.off("foo", listener)
+  view.emit("foo", 1)
+  view.off()
+  view.emit("bar", 1)
+  view.emit("foo", 1)
 })
 
 tape("class events", function(test){
@@ -119,13 +119,13 @@ tape("class events", function(test){
   test.plan(1)
   var view = cornea.create()
 
-  view.listen("foo", listener)
+  view.on("foo", listener)
   function listener(value){
     test.equal(value, 1)
-    view.stopListening()
-    view.fire("foo", 2)
+    view.off()
+    view.emit("foo", 2)
   }
-  view.fire("foo", 1)
+  view.emit("foo", 1)
 })
 
 
@@ -153,10 +153,10 @@ tape("styles", function(test){
   div.id = "stylesTest"
   document.body.appendChild(div)
   var view = cornea.create({element:"#stylesTest"})
-  view.setStyle("#stylesTest", {
+  view.setStyle("", {
     "font-size" : "60px"
   })
-  view.setStyle("#stylesTest", {
+  view.setStyle("", {
     "font-size" : "40px"
   })
   test.equal(getComputedStyle(div, null).getPropertyValue("font-size"), "40px")

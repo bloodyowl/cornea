@@ -1,5 +1,5 @@
 var escape = require("./escape")
-  , templateRE = /#\{\*\}/g
+var templateRE = /#\{\*\}/g
 
 module.exports = function(template, data, shouldEscape){
   if(data == null) {

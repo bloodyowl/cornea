@@ -2,11 +2,15 @@ var createListener = require("./createListener")
 
 module.exports = {
   listen : function(view){
-    if(!view.events) return
+    if(!view.events) {
+      return
+    }
     view.events.forEach(listen, view)
   },
   stopListening : function(view){
-    if(!view.events) return
+    if(!view.events) {
+      return
+    }
     view.events.forEach(stopListening, view)
   }
 }
