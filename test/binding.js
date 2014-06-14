@@ -12,11 +12,11 @@ tape("binding.toString", function(test){
   test.notEqual(b1.indexOf("data-cornea-key=\"foo\""), -1)
   test.notEqual(b1.indexOf("data-cornea-template=\"#{*}\""), -1)
   test.notEqual(b1.indexOf("data-cornea-escape"), -1)
-  test.notEqual(b1.indexOf("div"), -1)
   test.notEqual(b2.indexOf("span"), -1)
+  test.notEqual(b2.indexOf("span", b2.indexOf("span")), -1)
   test.notEqual(b2.indexOf("test"), -1)
   test.end()
-  
+
 })
 
 tape("binding.toNode", function(test){
@@ -24,7 +24,7 @@ tape("binding.toNode", function(test){
   var b = binding.create(view, "foo")
     , b1 = b.toNode()
 
-  test.equal(b1.nodeName, "DIV", "gets default nodeName")
+  test.equal(b1.nodeName, "SPAN", "gets default nodeName")
   test.equal(b1.className, "cornea-binding", "sets className")
   test.equal(b1.getAttribute("data-cornea-binding"), "innerHTML", "sets binding")
   test.equal(b1.getAttribute("data-cornea-key"), "foo", "sets key")

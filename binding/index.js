@@ -21,7 +21,7 @@ module.exports = klass.extend({
 
   toNode : function(options){
     if(options == void 0) options = {}
-    var node = document.createElement(options.nodeName || "div")
+    var node = document.createElement(options.nodeName || "span")
       , escape = options.hasOwnProperty("escape") ? options.escape : true
       , tmpl
     node.className =
