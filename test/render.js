@@ -15,22 +15,25 @@ tape("render", function(test){
         }
       })
 
-  view.render()
-
-  test.equal(view.bindings.length, 1)
-  test.equal(view.bindings[0].nodeName, "SPAN")
-  view.update("foo", "bar")
-  test.equal(view.bindings[0].innerHTML, "bar")
-  test.end()
-
+  view.render(function(){
+    test.equal(view.bindings.length, 1)
+    test.equal(view.bindings[0].nodeName, "SPAN")
+    view.update({
+      foo : "bar"
+    })
+    test.equal(view.bindings[0].innerHTML, "bar")
+    test.end()
+  })
 })
 
 
 tape("render (escaped)", function(test){
 
   var view = cornea.create({
-        data : {
-          "foo" : "<div>"
+        getInitialData : function(){
+          return {
+            "foo" : "<div>"
+          }
         },
         template : function(){
           return [
@@ -46,15 +49,18 @@ tape("render (escaped)", function(test){
       })
     , el
 
-  view.render()
-  el = view.element.querySelector(".test")
+  view.render(function(){
+    el = view.element.querySelector(".test")
 
-  test.equal(el.innerHTML, "&lt;div&gt;")
-  view.update("foo", "<span>")
-  test.equal(view.data.foo, "<span>")
-  test.equal(view.element.querySelector(".test"), el, "same element")
-  test.equal(el.innerHTML, "&lt;span&gt;")
-  test.end()
+    test.equal(el.innerHTML, "&lt;div&gt;")
+    view.update({
+      foo : "<span>"
+    })
+    test.equal(view.data.foo, "<span>")
+    test.equal(view.element.querySelector(".test"), el, "same element")
+    test.equal(el.innerHTML, "&lt;span&gt;")
+    test.end()
+  })
 
 })
 
@@ -62,8 +68,10 @@ tape("render (escaped)", function(test){
 tape("render (unescaped)", function(test){
 
   var view = cornea.create({
-        data : {
-          "foo" : "<i></i>"
+        getInitialData : function(){
+          return {
+            "foo" : "<i></i>"
+          }
         },
         template : function(){
           return [
@@ -79,14 +87,17 @@ tape("render (unescaped)", function(test){
       })
     , el
 
-  view.render()
-  el = view.element.querySelector(".test")
+  view.render(function(){
+    el = view.element.querySelector(".test")
 
-  test.equal(el.innerHTML, "<i></i>")
-  view.update("foo", "<b></b>")
-  test.equal(view.element.querySelector(".test"), el, "same element")
-  test.equal(el.innerHTML, "<b></b>")
-  test.end()
+    test.equal(el.innerHTML, "<i></i>")
+    view.update({
+      foo : "<b></b>"
+    })
+    test.equal(view.element.querySelector(".test"), el, "same element")
+    test.equal(el.innerHTML, "<b></b>")
+    test.end()
+  })
 
 })
 
@@ -94,8 +105,10 @@ tape("render (unescaped)", function(test){
 tape("render (value attribute)", function(test){
 
   var view = cornea.create({
-        data : {
-          "foo" : "name"
+        getInitialData : function(){
+          return {
+            "foo" : "name"
+          }
         },
         template : function(){
           var input = document.createElement("input")
@@ -107,14 +120,17 @@ tape("render (value attribute)", function(test){
       })
     , el
 
-  view.render()
-  el = view.element.querySelector("input")
+  view.render(function(){
+    el = view.element.querySelector("input")
 
-  test.equal(el.value, "yo name")
-  view.update("foo", "foo")
-  test.equal(view.element.querySelector("input"), el, "same element")
-  test.equal(el.value, "yo foo")
-  test.end()
+    test.equal(el.value, "yo name")
+    view.update({
+      "foo": "foo"
+    })
+    test.equal(view.element.querySelector("input"), el, "same element")
+    test.equal(el.value, "yo foo")
+    test.end()
+  })
 
 })
 
@@ -123,18 +139,21 @@ tape("render (no template)", function(test){
 
   var view = cornea.create({})
 
-  view.render()
-  test.equal(view.element.innerHTML, "")
-  test.end()
+  view.render(function(){
+    test.equal(view.element.innerHTML, "")
+    test.end()
+  })
 
 })
 
 tape("update loop", function(test){
 
   var view = cornea.create({
-        data : {
-          "bar" : "name",
-          "foo" : "name"
+        getInitialData : function(){
+          return {
+            "bar" : "name",
+            "foo" : "name"
+          }
         },
         template : function(){
           var input = document.createElement("input")
@@ -146,14 +165,20 @@ tape("update loop", function(test){
       })
     , el
 
-  view.render()
-  el = view.element.querySelector("input")
+  view.render(function(){
+    el = view.element.querySelector("input")
 
-  test.equal(el.value, "yo name")
-  view.update("bar", "foo")
-  view.update("foo", "foo")
-  test.equal(view.element.querySelector("input"), el, "same element")
-  test.equal(el.value, "yo foo")
-  test.end()
+    test.equal(el.value, "yo name")
+    view.update({
+      bar : "foo",
+      foo : "foo"
+    })
+    test.equal(view.element.querySelector("input"), el, "same element")
+    test.equal(el.value, "yo foo")
+  })
+  .then(function(){
+    test.pass("returns a promise")
+    test.end()
+  })
 
 })

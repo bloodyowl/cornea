@@ -153,10 +153,10 @@ tape("styles", function(test){
   div.id = "stylesTest"
   document.body.appendChild(div)
   var view = cornea.create({element:"#stylesTest"})
-  view.setStyle("#stylesTest", {
+  view.setStyle("", {
     "font-size" : "60px"
   })
-  view.setStyle("#stylesTest", {
+  view.setStyle("", {
     "font-size" : "40px"
   })
   test.equal(getComputedStyle(div, null).getPropertyValue("font-size"), "40px")

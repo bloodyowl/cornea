@@ -3,50 +3,31 @@ var tape = require("tape")
 
 tape("styles", function(test){
 
-  var style = styles.create()
+  var style = styles.create({id:1})
     , head = document.head || document.getElementsByTagName("head")[0]
     , rule
+    , rule2
     , div = document.createElement("div")
     , element = style.element
 
   test.equal(style.element.nodeName, "STYLE", "created stylesheet")
   test.equal(style.element.parentNode, head, "inserted stylesheet")
   rule = style.createRule(".foo")
-  test.equal(rule.selectorText, ".foo", "creates rules")
-  test.equal(style.element.sheet.cssRules[0].selectorText, ".foo", "rule assimilated")
+  test.equal(rule.selectorText, "[data-cornea-id=\"1\"] .foo", "creates rules")
+  test.equal(style.element.sheet.cssRules[0].selectorText, "[data-cornea-id=\"1\"] .foo", "rule assimilated")
   test.equal(style._selectors[".foo"], 0, "rule stored")
   test.equal(style.getRule(".foo"), rule, "rule fetched")
   test.equal(style.getRule(" .foo   "), rule, "trimmed rule fetched")
   style.setStyle(".foo", {
     "font-size" : "45px"
   })
-  div.className = "foo"
-  document.body.appendChild(div)
-  test.equal(getComputedStyle(div, null).getPropertyValue("font-size"), "45px")
-  test.equal(style.getRule(".bar"), null, "not found")
-
-  style.setStyle(".baz", {
-    "font-size" : "45px"
-  })
-  test.equal(style.getRule(".baz").selectorText, ".baz", "creates rule if not found")
+  rule2 = style.createRule(".foo, .bar, #foo")
+  test.equal(rule2.selectorText, "[data-cornea-id=\"1\"] .foo, [data-cornea-id=\"1\"] .bar, [data-cornea-id=\"1\"] #foo", "creates rules")
+  test.equal(style.element.sheet.cssRules[1].selectorText, "[data-cornea-id=\"1\"] .foo, [data-cornea-id=\"1\"] .bar, [data-cornea-id=\"1\"] #foo", "rule assimilated")
 
   test.doesNotThrow(function(){
     style.setStyle(".baz")
   })
-
-  style.setStyle(".foo", {
-    "font-size" : null
-  })
-  test.equal(getComputedStyle(div, null).getPropertyValue("font-size"), "16px", "resets if null as value")
-  style.setStyle(".foo", {
-    "font-size" : "45px"
-  })
-  style.destroy()
-  test.equal(element.parentNode, null)
-  test.equal(style.element, null)
-  test.equal(getComputedStyle(div, null).getPropertyValue("font-size"), "16px", "resets styles when ended")
-  style.create()
-  test.notEqual(style.element, element, "changed element")
   test.end()
 
 })

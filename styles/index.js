@@ -3,9 +3,10 @@ var klass = require("bloody-class")
   , hasOwnProperty = Object.prototype.hasOwnProperty
 
 module.exports = klass.extend({
-  constructor : function(){
+  constructor : function(view){
     this.element = document.createElement("style")
     head.appendChild(this.element)
+    this.view = view
     this._selectors = {}
   },
   destructor : function(){
@@ -14,12 +15,20 @@ module.exports = klass.extend({
     }
     this.element = null
   },
+  _createSelector : function(selector){
+    var scope = [
+      "[data-cornea-id=\"",
+        this.view.id,
+      "\"] "
+    ].join("")
+    return scope + selector.split(",").join(", " + scope)
+  },
   createRule : function(selectorText){
     var index = this.element.sheet.cssRules.length
       , selector = selectorText.trim()
     this._selectors[selector] = index
     this.element.sheet.insertRule(
-      selector + " {}",
+      this._createSelector(selector) + " {}",
       index
     )
     return this.element.sheet.cssRules[index]

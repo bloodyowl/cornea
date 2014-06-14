@@ -2,7 +2,7 @@ var tape = require("tape")
   , binding = require("../binding")
   , view = {data:{foo:"test"}}
 tape("binding.toString", function(test){
-  
+
   var b = binding.create(view, "foo")
     , b1 = b.toString()
     , b2 = b.toString({nodeName:"span"})
