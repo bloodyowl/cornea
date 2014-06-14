@@ -108,8 +108,14 @@ module.exports = eventClass.extend({
   },
 
   updateBindings : function(){
-    this.bindings =
-      [].slice.call(this.element.querySelectorAll("." + binding.CLASSNAME_BINDING))
+    var index = -1
+    var bindings = this.element.querySelectorAll("." + binding.CLASSNAME_BINDING)
+    var length = bindings.length
+    var array = Array(length)
+    while(++index < length) {
+      array[index] = bindings[index]
+    }
+    this.bindings = array
   },
 
   update : function(object){
