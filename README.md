@@ -34,31 +34,48 @@ var cornea = require("cornea")
 
 Creates a subclass. Useful for sharing common handlers.
 
-### `cornea#create(options)`
+### `cornea#create(options) > c`
 
 Creates a `cornea` view. Binds events.
 
-### `cornea#destroy`
+### `c.destroy`
 
 Unbinds the events.
 
-### `cornea#render`
+### `c.render(cb) > promise`
 
-Renders the given template into `view.element`.
+Renders the given template into `view.element` (asynchronous).
 
-### `cornea.binding(key)`
+### `c.binding(key)`
 
 Returns a `binding` object for the given `key`.
 
-### `cornea.data`
+### `c.getInitialData(fn)`
 
 Object for template data, bindings relate to it.
 
-### `cornea.update(key, value)`
+```javascript
+// sync
+cornea.extend({
+  getInitialData : function(){
+    return {
+      foo : "bar"
+    }
+  }
+})
+// async
+cornea.extend({
+  getInitialData : function(cb){
+    request.get("foo").then(cb)
+  }
+})
+```
 
-Updates bindings for `key` with `value`.
+### `c.update(object)`
 
-### `cornea.setStyle(selector, properties)`
+Updates data with the keys and values in object.
+
+### `c.setStyle(selector, properties)`
 
 Sets the style for the given `selector` with the properties.
 
@@ -66,8 +83,9 @@ Sets the style for the given `selector` with the properties.
 
 Passing `null` as a value resets the property to its defaults.
 
-**NOTE** : careful, styles are not scoped, selectors affect all the elements
-in the DOM.
+Styles are scoped to the view.
+
+---
 
 ### `binding`
 
@@ -94,6 +112,8 @@ Options are :
 
 * `bindingOptions.escape`
 * `bindingOptions.template`
+
+---
 
 ### `options`
 
@@ -138,6 +158,8 @@ List of events to bind.
 **note** : if `view.listener` changes, it will affect the event callback
 (a hook is set and fetches the right method)
 
+---
+
 ## class-events
 
 **NOTE** : These are `cornea` events, not DOM ones.
@@ -175,6 +197,11 @@ module.exports = cornea.extend({
       lightbox.show()
     })
   },
+  getInitialData : function(cb){
+    request
+      .get("i18n/lighbox")
+      .then(cb)
+  },
   events : [
     {
       type : "click",
@@ -187,11 +214,11 @@ module.exports = cornea.extend({
   },
   show : function(left, top){
     this.element.classList.add("Lightbox--visible")
-    this.setStyle(".Lightbox", {
+    this.setStyle(".Lightbox-lightbox", {
       "top" : top + "px",
       "left" : left + "px"
     })
-    this.fire("lightbox:show")
+    this.emit("lightbox:show")
   },
   template : function(data){
     return [
@@ -205,9 +232,6 @@ module.exports = cornea.extend({
           }),
       "</div>"
     ].join("")
-  },
-  data : {
-    value : ""
   }
 })
 ```
@@ -219,9 +243,14 @@ var view = require("./myView")
   , otherView = require("./otherView").create()
 
 var myView = view.create()
-
-myView.update("value", "oh hai")
-myView.listen("lightbox:show", function(){
-  otherView.hide()
-})
+myView
+  .render()
+  .then(function(){
+    myView.update({
+      value : "oh hai"
+    })
+    myView.on("lightbox:show", function(){
+      otherView.hide()
+    })
+  })
 ```
