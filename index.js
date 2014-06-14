@@ -109,7 +109,7 @@ module.exports = eventClass.extend({
 
   updateBindings : function(){
     this.bindings =
-      this.element.querySelectorAll("." + binding.CLASSNAME_BINDING)
+      [].slice.call(this.element.querySelectorAll("." + binding.CLASSNAME_BINDING))
   },
 
   update : function(object){
