@@ -42,9 +42,9 @@ Creates a `cornea` view. Binds events.
 
 Unbinds the events.
 
-### `c.render(cb) > promise`
+### `c.render([cb]) > promise`
 
-Renders the given template into `view.element` (asynchronous).
+Renders the given template into `view.element` (asynchronous), optionally executes `cb` afterwards.
 
 ### `c.binding(key)`
 
