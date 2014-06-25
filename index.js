@@ -1,4 +1,5 @@
-var eventClass = require("bloody-events")
+var eventMixin = require("bloody-events")
+var klass = require("bloody-class")
 var events = require("./events")
 var binding = require("./binding")
 var attribute = require("./binding/attribute")
@@ -11,13 +12,14 @@ var asap = require("asap")
 var promise = require("bloody-promise")
 var uniq = -1
 
-module.exports = eventClass.extend({
+module.exports = klass.extend({
 
   _styles: null,
 
+  mixins : [eventMixin],
+
   constructor : function(object){
     var view = this
-    eventClass.constructor.call(this)
     extend(this, object)
     if(typeof this.element == "string") {
       this.element = document.querySelector(this.element)
@@ -66,7 +68,6 @@ module.exports = eventClass.extend({
     if(this._styles != null) {
       this._styles.destroy()
     }
-    this.emit("destroy")
   },
 
   initEvents : function(){

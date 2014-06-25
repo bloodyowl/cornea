@@ -1,6 +1,6 @@
 {
   "name": "cornea",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "mess-avoider ",
   "main": "index.js",
   "scripts": {
@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "asap": "^1.0.0",
-    "bloody-class": "^1.2.1",
+    "bloody-class": "^1.4.0",
     "bloody-events": "^1.0.0",
     "bloody-promise": "^1.0.0"
   },
