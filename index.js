@@ -1,15 +1,16 @@
 var eventMixin = require("bloody-events")
 var klass = require("bloody-class")
-var events = require("./events")
-var binding = require("./binding")
-var attribute = require("./binding/attribute")
-var styles = require("./styles")
-var template = require("./template")
 var extend = require("./utils/extend")
+
+var events = require("./events")
+
+var DOM = require("./dom")
+var setProperty = require("./dom/set-property")
+var binding = require("./binding")
+
+var styles = require("./styles")
+
 var empty = function(){return ""}
-var _forEach = [].forEach
-var asap = require("asap")
-var promise = require("bloody-promise")
 var uniq = -1
 
 module.exports = klass.extend({
@@ -30,34 +31,20 @@ module.exports = klass.extend({
     if(!this.element) {
       this.element = document.createElement("div")
     }
-    this.bindings = []
+    this._bindings = {}
     if(!this.element.hasAttribute("data-cornea-id")) {
       this.element.setAttribute("data-cornea-id", ++uniq)
     }
     this.id = this.element.getAttribute("data-cornea-id")
+    if(typeof this.getInitialData == "function") {
+      this.data = this.getInitialData()
+    } else {
+      this.data = {}
+    }
     if(typeof this.initialize == "function") {
       this.initialize.apply(this, arguments)
     }
     this.initEvents()
-    if(typeof this.getInitialData == "function") {
-      this._data = promise.create(function(resolve){
-        var value = view.getInitialData(resolve)
-        if(value != null) {
-          resolve(value)
-        }
-      })
-    } else {
-      this._data = promise.create(function(resolve){
-        resolve({})
-      })
-    }
-    this._data.then(function(value){
-      view.data = value
-      view.emit("dataReceived", value)
-    })
-    asap(function(){
-      view.emit("create")
-    })
   },
 
   destructor : function(){
@@ -65,9 +52,26 @@ module.exports = klass.extend({
       this.release.apply(this, arguments)
     }
     this.removeEvents()
+    this._bindings = {}
     if(this._styles != null) {
       this._styles.destroy()
     }
+  },
+
+  _updateBindings : function(changes){
+    var keys = Object.keys(changes)
+    keys.forEach(function(key){
+      if(!this._bindings.hasOwnProperty(key)) {
+        return
+      }
+      this._bindings[key].forEach(function(item){
+        setProperty(
+          item.element,
+          item.property,
+          item.transform(changes[key])
+        )
+      })
+    }, this)
   },
 
   initEvents : function(){
@@ -78,71 +82,33 @@ module.exports = klass.extend({
     events.stopListening(this)
   },
 
-  binding : function(key){
-    return binding.create(this, key)
-  },
+  binding : binding,
+
+  DOM : DOM,
 
   template : empty,
 
-  render : function(cb){
-    var view = this
-    var then = this._data.then(function(){
-      view.emit("beforeRender")
-      var contents = view.template(view.data)
-      view.element.innerHTML = ""
-      if(typeof contents == "string") {
-        view.element.innerHTML = contents
-        view.updateBindings()
-        return
-      }
-      if(contents && contents.nodeType) {
-        view.element.innerHTML = ""
-        view.element.appendChild(contents)
-        view.updateBindings()
-      }
-    })
-    then.then(function(){
-      view.emit("afterRender")
-    })
-    then.then(cb)
-    return then
-  },
-
-  updateBindings : function(){
-    var index = -1
-    var bindings = this.element.querySelectorAll("." + binding.CLASSNAME_BINDING)
-    var length = bindings.length
-    var array = Array(length)
-    while(++index < length) {
-      array[index] = bindings[index]
+  render : function(){
+    this._bindings = {}
+    var contents = this.template(this.data)
+    this.element.innerHTML = ""
+    if(typeof contents == "string") {
+      this.element.innerHTML = contents
+      return
     }
-    this.bindings = array
+    if(contents && contents.nodeType) {
+      this.element.innerHTML = ""
+      this.element.appendChild(contents)
+    }
+    return this
   },
 
   update : function(object){
-    var key
-    var value
     if(object == null || typeof object != "object") {
-      return
+      throw new TypeError("expected an object")
     }
-    this.emit("beforeUpdate")
-    for(key in object) {
-      value = object[key]
-      if(this.data != null) {
-        this.data[key] = value
-      }
-      _forEach.call(this.bindings, function(element){
-        var property, templateString, content
-        if(element.getAttribute(binding.ATTRIBUTE_KEY) != key) {
-          return
-        }
-        property = element.getAttribute(binding.ATTRIBUTE_BINDING)
-        templateString = element.getAttribute(binding.ATTRIBUTE_TEMPLATE)
-        content = template(templateString, value, element.hasAttribute(binding.ATTRIBUTE_ESCAPE))
-        attribute.set(element, property, content)
-      })
-    }
-    this.emit("afterUpdate")
+    this.data = extend(extend({}, this.data), object)
+    this._updateBindings(object)
   },
 
   setStyle : function(selectorText, properties){
@@ -150,7 +116,6 @@ module.exports = klass.extend({
       this._styles = styles.create(this)
     }
     this._styles.setStyle(selectorText, properties)
-    this.emit("styleChange")
   }
 
 })

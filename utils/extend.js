@@ -1,9 +1,10 @@
 module.exports = function(object, source){
   if(!source) {
-    return
+    return object
   }
   Object.keys(source)
     .forEach(function(key){
       object[key] = source[key]
     })
+  return object
 }

@@ -8,14 +8,13 @@ var map = {
   className : "className",
   innerHTML : "innerHTML",
   textContent : "textContent",
-  innerText : "innerText"
+  innerText : "innerText",
+  nodeValue : "nodeValue"
 }
-module.exports = {
-  set : function(node, key, value){
-    if(map[key]) {
-      node[map[key]] = value
-      return
-    }
-    node.setAttribute(key, value)
+module.exports = function(node, key, value){
+  if(map[key]) {
+    node[map[key]] = value
+    return
   }
+  node.setAttribute(key, value)
 }

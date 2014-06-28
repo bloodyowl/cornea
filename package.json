@@ -1,6 +1,6 @@
 {
   "name": "cornea",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "mess-avoider ",
   "main": "index.js",
   "scripts": {
@@ -17,15 +17,11 @@
   },
   "homepage": "https://github.com/bloodyowl/cornea",
   "devDependencies": {
-    "bloody-promise": "^1.0.0",
-    "tape": "^2.5.0",
-    "testling": "^1.6.1"
+    "tape": "^2.5.0"
   },
   "dependencies": {
-    "asap": "^1.0.0",
     "bloody-class": "^1.4.0",
-    "bloody-events": "^1.0.0",
-    "bloody-promise": "^1.0.0"
+    "bloody-events": "^1.0.0"
   },
   "testling": {
     "files": "test/**.js",
