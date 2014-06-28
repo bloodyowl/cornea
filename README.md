@@ -42,9 +42,9 @@ Creates a `cornea` view. Binds events.
 
 Unbinds the events.
 
-### `c.render([cb]) > promise`
+### `c.render()`
 
-Renders the given template into `view.element` (asynchronous), optionally executes `cb` afterwards.
+Renders the given template into `view.element`.
 
 ### `c.binding(key)`
 
@@ -55,18 +55,11 @@ Returns a `binding` object for the given `key`.
 Object for template data, bindings relate to it.
 
 ```javascript
-// sync
 cornea.extend({
   getInitialData : function(){
     return {
       foo : "bar"
     }
-  }
-})
-// async
-cornea.extend({
-  getInitialData : function(cb){
-    request.get("foo").then(cb)
   }
 })
 ```
@@ -87,31 +80,35 @@ Styles are scoped to the view.
 
 ---
 
+### `DOM`
+
+cornea have a `cornea.DOM` object containing methods to create elements.
+
+e.g.
+
+```javascript
+cornea.DOM.div(null) // <div></div>
+cornea.DOM.div({className:"foo"}) // <div class="foo"></div>
+cornea.DOM.div(null, "foo") // <div>foo</div>
+cornea.DOM.div(null, "foo", cornea.DOM.span(null)) // <div>foo<span></span></div>
+```
+
+---
+
 ### `binding`
 
-#### `binding.toNode(bindingOptions)`
+#### `c.binding(key[, options])`
 
-Returns a bound node.
+creates a binding.
 
-#### `binding.toString(bindingOptions)`
+```javascript
+cornea.DOM.div(null, this.binding("value"))
+```
 
-Returns the string representation of a bound node.
+##### options
 
-##### `bindingOptions`
-
-* `bindingOptions.escape`
-* `bindingOptions.className`
-* `bindingOptions.nodeName`
-* `bindingOptions.attributes` (object, as key:value)
-* `bindingOptions.template` (string, where `#{*}` is the bound value)
-
-#### `binding.bindAttribute(node, attributeName, options)`
-
-Binds `attributeName`.
-Options are :
-
-* `bindingOptions.escape`
-* `bindingOptions.template`
+- `escape` (default to `false`)
+- `transform` (default, `function(a){return a}`)
 
 ---
 
@@ -185,22 +182,23 @@ fires synchronously the given `type` event, passing the `data…` arguments to t
 ## example
 
 ```javascript
+/** @jsx cornea.DOM */
 var cornea = require("cornea")
-  , app = require("./app")
+var app = require("./app")
 
 module.exports = cornea.extend({
   element : ".Lightbox",
   initialize : function(){
     var lightbox = this
-    app.listen("lightbox:show", function(data){
+    app.on("lightbox:show", function(data){
       lightbox.update("value", data)
       lightbox.show()
     })
   },
-  getInitialData : function(cb){
-    request
-      .get("i18n/lighbox")
-      .then(cb)
+  getInitialData : function(){
+    return {
+      value : ""
+    }
   },
   events : [
     {
@@ -221,17 +219,19 @@ module.exports = cornea.extend({
     this.emit("lightbox:show")
   },
   template : function(data){
-    return [
-      "<div class='Lightbox-overlay'></div>",
-      "<div class='Lightbox-lightbox'>",
-        "<button class='Lightbox-close js-Close'>&times;</button>",
-          this.binding("value").toString({
-            className : "Lightbox-content",
-            escape : false,
-            nodeName : "div"
-          }),
-      "</div>"
-    ].join("")
+    return (
+       <div>
+        <div className="Lightbox-overlay" />
+        <div className="Lightbox-lightbox">
+          <button className="Lightbox-close js-Close">
+            {"&times;"}
+          </button>
+          <div className="Lightbox-content">
+            {this.binding("value")}
+          </div>
+        </div>
+      </div>
+    )
   }
 })
 ```
@@ -240,17 +240,14 @@ and init your view :
 
 ```javascript
 var view = require("./myView")
-  , otherView = require("./otherView").create()
+var otherView = require("./otherView").create()
 
 var myView = view.create()
-myView
-  .render()
-  .then(function(){
-    myView.update({
-      value : "oh hai"
-    })
-    myView.on("lightbox:show", function(){
-      otherView.hide()
-    })
-  })
+myView.render()
+myView.update({
+  value : "oh hai"
+})
+myView.on("lightbox:show", function(){
+  otherView.hide()
+})
 ```
