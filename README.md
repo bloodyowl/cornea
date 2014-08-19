@@ -30,27 +30,27 @@ var cornea = require("cornea")
 
 ## use
 
-### `cornea.extend(options)`
+### cornea.extend(options)
 
 Creates a subclass. Useful for sharing common handlers.
 
-### `cornea#create(options) > c`
+### cornea.create(options) > instance
 
 Creates a `cornea` view. Binds events.
 
-### `c.destroy`
+### cornea#destroy()
 
 Unbinds the events.
 
-### `c.render()`
+### cornea.render()
 
 Renders the given template into `view.element`.
 
-### `c.binding(key)`
+### cornea#binding(property)
 
-Returns a `binding` object for the given `key`.
+Returns a `binding` object for the given `property`.
 
-### `c.getInitialData(fn)`
+### cornea#getInitialData(fn)
 
 Object for template data, bindings relate to it.
 
@@ -64,11 +64,11 @@ cornea.extend({
 })
 ```
 
-### `c.update(object)`
+### cornea#update(object)
 
 Updates data with the keys and values in object.
 
-### `c.setStyle(selector, properties)`
+### cornea.setStyle(selector, properties)
 
 Sets the style for the given `selector` with the properties.
 
@@ -80,7 +80,7 @@ Styles are scoped to the view.
 
 ---
 
-### `DOM`
+### DOM
 
 cornea have a `cornea.DOM` object containing methods to create elements.
 
@@ -95,9 +95,9 @@ cornea.DOM.div(null, "foo", cornea.DOM.span(null)) // <div>foo<span></span></div
 
 ---
 
-### `binding`
+### binding
 
-#### `c.binding(key[, options])`
+#### cornea#binding(key[, options])
 
 creates a binding.
 
@@ -112,21 +112,21 @@ cornea.DOM.div(null, this.binding("value"))
 
 ---
 
-### `options`
+### options
 
-#### `options.element`
+#### options.element
 
 `String` or `Node`, optional.
 View root.
 If not defined, an empty `<div>` will be created.
 
-#### `options.template`
+#### options.template
 
 `Function`, optional (default : `-> ""`).
 
 Template called on `.render`. Should return a `string` or a `node`.
 
-#### `options.initialize`
+#### options.initialize
 
 `Function`, optional.
 Code to execute when the `view.create` method is called.
@@ -134,18 +134,18 @@ Its `thisValue` is the current `view` and its arguments are the one passed to `v
 
 **note** The first `.create` argument is though reserved to the `view` extension.  
 
-#### `options.release`
+#### options.release
 
 `Function`, optional.
 Code to execute when the `view.destroy` method is called.
 
 
-#### `options.events`
+#### options.events
 
 `Array`, optional.
 List of events to bind.
 
-#### `options.events[index]`
+#### options.events[index]
 
 * `type` String, event type (e.g. `click`)
 * `selector` String (optional), delegation selector
@@ -162,11 +162,11 @@ List of events to bind.
 **NOTE** : These are `cornea` events, not DOM ones.
 This is mainly app communication.
 
-### `cornea.on(type, listener)`
+### cornea.on(type, listener)
 
 listens the the `type` event and attaches `listener` to it.
 
-### `cornea.off([type[, listener]])`
+### cornea.off([type[, listener]])
 
 stops listening :
 
@@ -174,7 +174,7 @@ stops listening :
 - if `type` is set : all `type` events
 - if `type` and `listener` are set : the `listener` for this `type`
 
-### `cornea.emit(type[, data…])`
+### cornea.emit(type[, data…])
 
 fires synchronously the given `type` event, passing the `data…` arguments to the listeners.
 
