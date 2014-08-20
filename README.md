@@ -68,7 +68,7 @@ cornea.extend({
 
 Updates data with the keys and values in object.
 
-### cornea.setStyle(selector, properties)
+### cornea#setStyle(selector, properties)
 
 Sets the style for the given `selector` with the properties.
 
